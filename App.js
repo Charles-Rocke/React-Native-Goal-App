@@ -2,11 +2,21 @@
  * Shift + alt + f
  */
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import { useState } from "react";
+// import styles from "./styles";
 
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState("");
+  const [courseGoals, setCourseGoals] = useState([]);
 
   // fetch user input
   function goaldInputHandler(enteredText) {
@@ -15,7 +25,10 @@ export default function App() {
 
   // add goal to list
   function addGoalHandler() {
-    console.log(enteredGoalText)
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      { text: enteredGoalText, id: Math.random().toString() },
+    ]);
   }
 
   return (
@@ -29,7 +42,21 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        <Text>List of Goals...</Text>
+        {/* Flat list is scroll view but with perfomance optimization built in */}
+        <FlatList
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+          data={courseGoals}
+          alwaysBounceVertical={false}
+          renderItem={(itemData) => {
+            return (
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{itemData.item.text}</Text>
+              </View>
+            );
+          }}
+        />
       </View>
     </View>
   );
@@ -49,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: "#05c1ff",
+    borderBottomColor: "#cccccc",
   },
   textInput: {
     borderWidth: 1,
@@ -61,5 +88,14 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 5,
+  },
+  goalItem: {
+    margin: 8,
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: "#5e0acc",
+  },
+  goalText: {
+    color: "white",
   },
 });
