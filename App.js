@@ -1,22 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+/* Auto format shortcut
+ * Shift + alt + f
+ */
+import { StatusBar } from "expo-status-bar";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { useState } from "react";
 
 export default function App() {
+  const [enteredGoalText, setEnteredGoalText] = useState("");
+
+  // fetch user input
+  function goaldInputHandler(enteredText) {
+    setEnteredGoalText(enteredText);
+  }
+
+  // add goal to list
+  function addGoalHandler() {
+    console.log(enteredGoalText)
+  }
+
   return (
     <View style={styles.appContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.textInput} placeholder="Your course goal"/>
-        <Button title="Add Goal" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your course goal"
+          onChangeText={goaldInputHandler}
+        />
+        <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
-      <View style = {styles.goalsContainer}>
-        <Text>List of Goals</Text>
+      <View style={styles.goalsContainer}>
+        <Text>List of Goals...</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   // Max styles
   appContainer: {
     flex: 1,
@@ -30,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: "#05c1ff"
+    borderBottomColor: "#05c1ff",
   },
   textInput: {
     borderWidth: 1,
@@ -42,5 +61,5 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 5,
-  }
+  },
 });
