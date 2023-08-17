@@ -9,7 +9,6 @@ import GoalInput from "./components/GoalInput";
 // import styles from "./styles"; can work as its own component
 
 export default function App() {
-  
   const [courseGoals, setCourseGoals] = useState([]);
 
   // add goal to list
@@ -20,11 +19,15 @@ export default function App() {
     ]);
   }
 
+  function deleteGoalHandler(id) {
+    setCourseGoals((currentCourseGoals) => {
+      return currentCourseGoals.filter((goal) => goal.id !== id);
+    });
+  }
+
   return (
     <View style={styles.appContainer}>
-      <GoalInput
-        handleAddGoal={addGoalHandler}
-      />
+      <GoalInput handleAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         {/* Flat list is scroll view but with perfomance optimization built in */}
         <FlatList
@@ -34,7 +37,13 @@ export default function App() {
           data={courseGoals}
           alwaysBounceVertical={false}
           renderItem={(itemData) => {
-            return <GoalItem text={itemData.item.text} />;
+            return (
+              <GoalItem
+                text={itemData.item.text}
+                onDeleteItem={deleteGoalHandler}
+                id={itemData.item.id}
+              />
+            );
           }}
         />
       </View>

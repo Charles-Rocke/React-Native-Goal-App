@@ -1,9 +1,11 @@
-import { StyleSheet, View, Text } from "react-native";
-function GoalItem({text}) {
+import { StyleSheet, View, Text, Pressable } from "react-native"; // Pressable is the equivalent of onClick for web based components
+function GoalItem({ text, onDeleteItem, id }) {
   return (
-    <View style={styles.goalItem}>
-      <Text style={styles.goalText}>{text}</Text>
-    </View>
+    <Pressable onPress={onDeleteItem.bind(this, id)}>
+      <View style={styles.goalItem}>
+        <Text style={styles.goalText}>{text}</Text>
+      </View>
+    </Pressable>
   );
 }
 
